@@ -1,8 +1,4 @@
-class MathTool {
-  static PI: number = 3.14;
-  static muliti(x: number, y: number) {
-    return x * y;
-  }
-}
-MathTool.PI;
-MathTool.muliti(5, 6);
+
+const 배열명:종류[] = [요소1, 요소2, 요소3, ...];
+// 아래는 잘 활용하지 않음.
+const 배열명 = new Array(5); // 5개의 데이터를 담아둘 배열
