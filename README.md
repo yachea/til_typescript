@@ -1,405 +1,168 @@
-# class
+# 객체 (`{}`) 와 배열 (`[]`) 의 반복문
 
-- 클래스는 `설계도` 이다.
-- 클래스 즉, 설계도를 기반으로 `객체(결과물-instance)`을 만드는 것을 말함.
-- 목적은 `인스턴스`, 즉 `new 를 통해서 객체`를 대량 생산하는 것.
-- class 는 문법으로 존재하며, 실무에서 직접 class 를 `만드는 경우는 극히` 드물다.
-- 백엔드를 js 로 만들 때는 이해 필수 입니다.
+## 1. 배열의 반복문
 
-## 1. class 기본 모양
+- for 문
 
 ```js
-class 클래스명 {
-  // 코드블럭
-  // 지역스코프
+const arr = [1, 2, 3, 4];
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]); // 1, 2, 3, 4
 }
-const 인스턴스 = new 클래스명();
-
-class Robot {
-  // 코드블럭
-  // 지역스코프
-}
-const ins = new Robot();
 ```
 
-```ts
-class 클래스명 {
-  // 코드블럭
-  // 지역스코프
-}
-const 인스턴스: 클래스명 = new 클래스명();
-
-class Robot {
-  // 코드블럭
-  // 지역스코프
-}
-const ins: Robot = new Robot();
-```
-
-## 2. class 에서 new 하면 실행되는 함수는 약속
-
-- constructor 메서드 : 디폴트 생성자 메서드
+- forEach
 
 ```js
-class 클래스명 {
-  // 작성 안하셔도 기본적으로 new 하면 작동됩니다.
-  constrctor() {}
-}
-const 인스턴스 = new 클래스명();
-
-class Robot {
-  // 메소드 축약형
-  constructor() {
-    console.log("안녕");
-  }
-}
-const ins = new Robot();
+const arr = [1, 2, 3, 4];
+arr.forEach(function (요소, 인덱스, 원본배열) {
+  console.log(요소); // 1, 2, 3, 4
+});
+// 아래 구문이 많이 사용되는 형태이다.
+arr.forEach((요소, 인덱스, 원본배열) => {
+  console.log(index); // 0, 1, 2, 3
+  console.log(item); // 1, 2, 3, 4
+});
 ```
 
-```ts
-class 클래스명 {
-  // 작성 안하셔도 기본적으로 new 하면 작동됩니다.
-  constrctor() {}
-}
-const 인스턴스: 클래스명 = new 클래스명();
-
-class Robot {
-  // 메소드 축약형
-  constructor() {
-    console.log("안녕");
-  }
-}
-const ins: Robot = new Robot();
-```
-
-- constructor 메서드 : 속성의 초기 값을 셋팅 해 줄 수 있어요.
-
-## 3. 객체의 `속성`과 `속성값`을 셋팅한다.
-
-- {`속성`: `속성값`}
-- constructor 를 활용한다.
+- map : 원본 배열에서 새로운 배열을 만든다. (별표 10만개)
 
 ```js
-class Robot {
-  // 메소드 축약형
-  constructor(who) {
-    this.who = who;
-    console.log(`${this.who}안녕`);
-  }
-}
-const ins1 = new Robot("여러분");
-console.log(ins1); // Robot { who: '여러분' }
-const ins2 = new Robot("팬 여러분");
-console.log(ins2); //Robot { who: '팬 여러분' }
-const ins3 = new Robot("주인님");
-console.log(ins3); //Robot { who: '주인님' }
-const ins4 = new Robot("친구야");
-console.log(ins4); //Robot { who: '친구야' }
+const arr = [1, 3, 5, 2];
+arr.map(function (요소, 인덱스, 원본배열) {
+  return 요소 + 1; // 2, 4, 6, 3
+});
+arr.map((요소, 인덱스, 원본배열) => {
+  return 요소 + 1; // 2, 4, 6, 3
+});
+// 아래처럼 주로 사용합니다.
+const resultArr = arr.map((요소, 인덱스) => {
+  return 요소 + 1; // 2, 4, 6, 3
+});
 ```
-
-- `TypeScript 만의 방식이 존재함.`
-
-```ts
-class Robot {
-  // 여기는 클래스 내부 라서 규칙이 있습니다.
-  // 속성을 정의해 줍니다.
-  who: string;
-
-  // 메소드축약형
-  constructor(who: string) {
-    this.who = who;
-    console.log(`${this.who} 안녕`);
-  }
-}
-
-const ins1: Robot = new Robot("여러분");
-console.log(ins1); // Robot { who: '여러분' }
-
-const ins2: Robot = new Robot("팬 여러분");
-console.log(ins2); // Robot { who: '팬 여러분' }
-
-const ins3: Robot = new Robot("주인님");
-console.log(ins3); // Robot { who: '주인님' }
-
-const ins4: Robot = new Robot("친구야");
-console.log(ins4); // Robot { who: '친구야' }
-```
-
-## 4. 객체의 `메서드` 셋팅하기
-
-- 메서드는 객체의 기능을 말함. (객체에 만든 함수를 메서드라고 함)
 
 ```js
-class Robot {
-  // 메소드 축약형
-  constructor(who) {
-    this.who = who;
-    console.log(`${this.who}안녕`);
-  }
-  // 걷기 메소드
-  walk() {
-    console.log(`${this.who} 님과 같이 걸어요.`);
-  }
-  // 말하기 메소드
-  talk() {
-    console.log(`${this.who} 님과 대화하고 싶어요.`);
-  }
-}
-const ins1 = new Robot("여러분");
-console.log(ins1.who);
-ins1.talk();
-ins1.walk();
-console.log(ins1);
-const ins2 = new Robot("팬 여러분");
-console.log(ins2);
-const ins3 = new Robot("주인님");
-console.log(ins3);
-const ins4 = new Robot("친구야");
-console.log(ins4);
+const arr = [10, 20, 11, 24];
+const resultArr = arr.map((item, index) => {
+  return `<div class = "box">${item}</div>`;
+});
 ```
 
-```ts
-class Robot {
-  // 속성 정의
-  who: string;
+- for in 구문 : (가능하면 사용하지마세요. 객체에게 양보하세요)
 
-  // 메소드 축약형
-  constructor(who: string) {
-    this.who = who;
-    console.log(`${this.who}안녕`);
-  }
-  // 걷기 메소드
-  walk(): void {
-    console.log(`${this.who} 님과 같이 걸어요.`);
-  }
-  // 말하기 메소드
-  talk(): void {
-    console.log(`${this.who} 님과 대화하고 싶어요.`);
-  }
-}
-const ins1: Robot = new Robot("여러분");
-console.log(ins1.who);
-ins1.talk();
-ins1.walk();
-console.log(ins1);
-const ins2: Robot = new Robot("팬 여러분");
-console.log(ins2);
-const ins3: Robot = new Robot("주인님");
-console.log(ins3);
-const ins4: Robot = new Robot("친구야");
-console.log(ins4);
-```
+## 2. 객체의 반복문
 
-## 5. 오로지 class 에만 있는 상속 (extends)
-
-- `유전자` 처럼 생각하자.
+- for in 구문 : 가장 추천
 
 ```js
-class Animal {
-  constructor() {
-    this.eye = 2;
-  }
-  cry() {}
-  eat() {}
-}
-class Cat extends Animal {
-  꾹꾹이() {}
+const obj = {
+  age: 10,
+  nickName: "hong",
+  isMember: true,
+};
+for (속성명 in 원본객체) {
+  console.log(속성명);
+  console.log(원본객체[속성명]);
 }
 
-class Dog extends Animal {
-  달짖기() {}
+for (key in obj) {
+  console.log(key); // age, nickName, isMember
+  console.log(obj[key]); // 10, hong, true
 }
 ```
 
-```ts
-class Animal {
-  // 속성 정의
-  eye: number;
-
-  constructor() {
-    this.eye = 2;
-  }
-  cry(): void {}
-  eat(): void {}
-}
-
-class Cat extends Animal {
-  꾹꾹이(): void {}
-}
-
-class Dog extends Animal {
-  달짖기(): void {}
-}
-
-const ani: Animal = new Animal();
-ani.cry();
-ani.eat();
-ani.eye;
-
-const cat: Cat = new Cat();
-cat.cry();
-cat.eat();
-cat.eye;
-cat.꾹꾹이();
-
-const dog: Dog = new Dog();
-dog.cry();
-dog.eat();
-dog.eye;
-dog.달짖기();
-```
-
-## 6. 상속에서 속성 값 전달하기
-
-- 부모님에게 값을 전달하기
+- Object.keys(객체).forEach : 참조만 하자.
 
 ```js
-class Animal {
-  constructor(_boold) {
-    this.eye = 2;
-    // 혈액을 받겠다.
-    this.boold = _boold;
-  }
-  cry() {}
-  eat() {}
-}
-const ani = new Animal("A형");
-
-class Cat extends Animal {
-  // extends 를 하셨으므로
-  constructor(_boold) {
-    // 엄마
-    super(_boold);
-  }
-
-  꾹꾹이() {}
-}
-
-const cat = new Cat("B형");
-
-class Dog extends Animal {
-  constructor(_boold) {
-    super(_boold);
-  }
-
-  달짖기() {}
-}
-
-const dog = new Dog("B형");
+const obj = {
+  age: 10,
+  nickName: "hong",
+  isMember: true,
+};
+Object.keys(obj); // [age, nickName, isMember]
+Object.keys(obj).forEach(function (요소, 인덱스, 원본) {});
+Object.keys(obj).forEach((요소, 인덱스, 원본) => {
+  console.log(요소); // age, nickName, inMember
+});
 ```
 
-```ts
-class Animal {
-  // 속성정의
-  eye: number;
-  boold: string;
-
-  constructor(_boold: string) {
-    this.eye = 2;
-    // 혈액을 받겠다.
-    this.boold = _boold;
-  }
-  cry(): void {}
-  eat(): void {}
-}
-const ani = new Animal("A형");
-
-class Cat extends Animal {
-  // extends 를 하셨으므로
-  constructor(_boold: string) {
-    // 엄마
-    super(_boold);
-  }
-
-  꾹꾹이(): void {}
-}
-
-const cat: Cat = new Cat("B형");
-
-class Dog extends Animal {
-  constructor(_boold: string) {
-    super(_boold);
-  }
-
-  달짖기(): void {}
-}
-
-const dog: Dog = new Dog("B형");
-```
-
-## 오로지 TypeScript 에만 존재하는 문법
-
-- public 속성 접근 (누구나 접근가능)
-- private 속성 접근 제어자 (그 누구도 접근불가)
-- protected 속성 접근 제어자 (`상속`받은 대상 접근가능)
-
-```ts
-class BankAccount {
-  public user: string;
-  private balance: number;
-  constructor(user: string, balance: number) {
-    this.user = user;
-    this;
-    balance = balance;
-  }
-  showBalance() {
-    this.balance; // 내부에서는 활용 가능
-  }
-}
-
-const iu: BankAccount = new BankAccount("아이유", 55478);
-iu.user;
-iu.balance; // 비공개 데이터라서 error
-```
-
-```ts
-class Animal {
-  public eye: number;
-  private nose: number;
-  protected lips: number;
-}
-// 상속받음
-class Cat extends Animal {
-  constructor() {
-    super();
-  }
-  show() {
-    this.eye; // public 라서 마음대로 접근
-    this.nose; // private 라서 아무도 못 접근: Error
-    this.lips; // protected 는 자식이라서 허용됨
-  }
-}
-
-//  인스턴스 객체 생성
-const cat = new Cat();
-cat.eye; // public 라서 마음대로 접근
-cat.nose; // private 라서 아무도 못 접근: Error
-cat.lips; // protected 라서 아무도 못 접근: Error
-```
-
-## class에서 new 없이 사용가능한 속성과 메서드
-
-- `Math.PI, Math.round(), Math.floor() ...`
-- `static` 을 붙이면 new 없이 사용가능
+- Object.values(객체).forEach : 참조만 하자.
 
 ```js
-class MathTool {
-  static PI = 3.14;
-  static muliti(x, y) {
-    return x * y;
-  }
-}
-MathTool.PI;
-MathTool.muliti(5, 6);
+const obj = {
+  age: 10,
+  nickName: "hong",
+  isMember: true,
+};
+Object.values(obj); // [10, "hong", true]
+Object.values(obj).forEach(function (요소, 인덱스, 원본) {});
+Object.values(obj).forEach((요소, 인덱스, 원본) => {
+  console.log(요소); // 10, "hong", true
+});
 ```
 
-```ts
-class MathTool {
-  static PI: number = 3.14;
-  static muliti(x: number, y: number) {
-    return x * y;
-  }
+- Object.entries(객체).forEach : 참조만 하자.
+
+```js
+const obj = {
+  age: 10,
+  nickName: "hong",
+  isMember: true,
+};
+Object.entries(obj); // [10, "hong", true]
+Object.entries(obj).forEach(function (요소, 인덱스, 원본) {});
+Object.entries(obj).forEach((요소, 인덱스, 원본) => {
+  console.log(요소); // [age, 10]
+  console.log(요소); // [nickName, "hong"]
+  console.log(요소); // [isMember, true]
+});
+```
+
+## 3. 정리 (우리가 필수 알아야 함)
+
+- for
+- 배열.map
+- 배열.forEach
+- for (키 in 객체)
+
+# 값을 추출해서 보관하기 (별포 10만개)
+
+## 1. `배열`의 값을 뽑아서 보관하기
+
+```js
+const arr = ["사과", "딸기", "바나나"];
+// 아래처럼 정말 단순하게 작업함.
+const apple = arr[0];
+const strawberry = [1];
+const banana = arr[2];
+// 아래처럼 ... Spread 문법을 권장함.
+const [a, b, c] = [...arr];
+console.log(a); // 사과
+console.log(b); // 딸기
+console.log(c); // 바나나
+```
+
+- `Spred 문법`으로 2개의 배열을 하나로 합치기
+
+```js
+const arr = ["사과", "딸기", "바나나"];
+const resultArr = [5, arr[0], arr[1], arr[2], 3, 7, 1];
+// 아래가 spred 문법임
+const resultArr = [5, ...arrr, 3, 7, 1];
+// Rest 파라메터
+function 함수(...rest) {
+  console.log(rest); // [1,2,3]
 }
-MathTool.PI;
-MathTool.muliti(5, 6);
+함수(1, 2, 3);
+```
+
+## 2. `객체`의 값을 뽑아서 보관하기 (별 100만개)
+
+```js
+const obj = { age: 10, job: "개발자", city: "대구" };
+const a = obj.age;
+const b = obj.job;
+const c = obj["city"];
+// 객체 구조 분해 할당  (DeStructuring)
+const { a, b, c } = obj;
 ```
